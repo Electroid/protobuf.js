@@ -9,40 +9,49 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: "12"
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
     - name: "Install dependencies"
-      run: npm install
+      run: bun install
     - name: "Lint sources"
-      run: npm run lint:sources -- --max-warnings 0
+      run: bun run lint:sources -- --max-warnings 0
     - name: "Lint types"
-      run: npm run lint:types
+      run: bun run lint:types
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: ["12", "14", "16", "18"]
+        node_version: ["12", "14", "16", "18", "20", "22"]
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node_version }}
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
     - name: "Install dependencies"
-      run: npm install
+      run: bun install
     - name: "Test sources"
-      run: npm run test:sources
+      run: bun run test:sources
     - name: "Test types"
-      run: npm run test:types
+      run: bun run test:types
   bench:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: "12"
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "latest"
     - name: "Install dependencies"
-      run: npm install
+      run: bun install
     - name: "Run benchmark"
-      run: npm run bench
+      run: bun run bench
